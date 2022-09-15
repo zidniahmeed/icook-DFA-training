@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ResepController;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,29 +25,24 @@ Route::get('/main', function () {
 });
 
 
-Route::get('/main',[CategoryController::class, 'index'] );
+
+//category
+Route::get('/category',[CategoryController::class,'index']);
+Route::get('/createcategory',[CategoryController::class,'create']);
+Route::get('/editcategory',[CategoryController::class,'edit']);
+
+//category
+Route::get('/resep',[ResepController::class,'index']);
+Route::get('/createresep',[ResepController::class,'create']);
+Route::get('/editresep',[ResepController::class,'edit']);
+
+//resep
+Route::get('/video',[VideoController::class,'index']);
+Route::get('/createvideo',[VideoController::class,'create']);
+Route::get('/editvideo',[VideoController::class,'edit']);
 
 
 
-Route::get('/category', function () {
-    return view('category.index');
-});
-Route::get('/createcategory', function () {
-    return view('category.create');
-});
-Route::get('/editcategory', function () {
-    return view('category.edit');
-});
-
-
-
-Route::get('/resep', function () {
-    return view('resep.index');
-});
-
-Route::get('/video', function () {
-    return view('video.index');
-});
 
 
 

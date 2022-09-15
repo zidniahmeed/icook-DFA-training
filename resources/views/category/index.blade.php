@@ -19,9 +19,14 @@
         </tr>
         </thead>
         <tbody>
+        
+          @php
+              $no = 1
+          @endphp
+          @foreach ( $category as $row )
             <tr>
-                <td>1</td>
-                <td>chicken</td>
+                <td>{{ $no++ }}</td>
+                <td>  {{ $row->category ?? null }}  </td>
                 <td>
                     <a href="/editcategory" class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
 
@@ -29,6 +34,8 @@
 
                 </td>
             </tr>
+            @endforeach
+
         </tbody>
         
       </table>
