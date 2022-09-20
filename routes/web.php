@@ -28,6 +28,9 @@ Route::get('/main', function () {
 
 //category
 Route::get('/category',[CategoryController::class,'index'])->name('category');
+
+
+
 Route::get('/createcategory',[CategoryController::class,'create']);
 Route::post('/insertcategory',[CategoryController::class, 'store']);
 Route::get('/editcategory/{id}',[CategoryController::class,'edit']);
