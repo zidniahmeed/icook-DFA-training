@@ -1,6 +1,14 @@
 @extends('layouts.main')
 @section('content')
 
+
+@if ($message = Session::get('success'))
+<div class="alert alert-success">
+    	<p>{{ $message }}</p>
+</div>
+@endif
+
+
 <a href="/createcategory" class="btn btn-outline-primary">add category</a>
 
 
@@ -26,11 +34,11 @@
           @foreach ( $category as $row )
             <tr>
                 <td>{{ $no++ }}</td>
-                <td>  {{ $row->category ?? null }}  </td>
+                <td>  {{ $row->name ?? null }}  </td>
                 <td>
-                    <a href="/editcategory" class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="/editcategory/{{$row->id}}" class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                    <a href="" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
+                    <a href="/deletecategory/{{$row->id}}" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
 
                 </td>
             </tr>

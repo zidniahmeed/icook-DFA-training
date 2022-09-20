@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
@@ -13,7 +14,8 @@ class VideoController extends Controller
      */
     public function index()
     {
-        return view('video.index');
+        $video = Video::get();
+        return view('video.index',compact('video'));
     }
 
     /**
@@ -23,7 +25,7 @@ class VideoController extends Controller
      */
     public function create()
     {
-        return view('vide.create');
+        return view('video.create');
     }
 
     /**
@@ -34,7 +36,13 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new Video; 
+
+        $data->id_resep = $request->id_resep;
+        $data->video = $request->video;
+        
+        $data ->save();
+        return redirect()->route('video')->with('success', 'Category has been created successfully.');
     }
 
     /**

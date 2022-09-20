@@ -1,14 +1,29 @@
 @extends('layouts.main')
 @section('content')
-<form>
-
+<form action="/insertvideo" method="post" >
+    @csrf
 <div class="container">
     <div class="row">
         <div class="col-4">
 
             <div class="mb-3">
+                <label  class="form-label">resep</label>
+                <select class="form-control" name="id_resep" required>
+
+                    <option value="">select resep</option>
+                    
+                    @foreach (App\Models\Resep::get() as $item)
+                        <option value="{{$item->id}}"> 
+                            {{$item->judul}}
+                        </option>
+                    @endforeach
+        
+                </select>
+            </div>
+
+            <div class="mb-3">
                 <label  class="form-label">video</label>
-                <input type="text" class="form-control" >
+                <input type="text" class="form-control" name="video" required>
             </div>
             
   

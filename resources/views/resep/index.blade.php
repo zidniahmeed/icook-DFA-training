@@ -3,7 +3,11 @@
 
 <a href="/createresep" class="btn btn-outline-primary">add resep</a>
 
-
+@if ($message = Session::get('success'))
+<div class="alert alert-success">
+    	<p>{{ $message }}</p>
+</div>
+@endif
 <div class="card">
     <div class="card-header">
       <h3 class="card-title">DataTable with default features</h3>
@@ -28,14 +32,16 @@
           @foreach ( $resep as $row )
             <tr>
                 <td>{{ $no++ }}</td>
-                <td>{{$row->id_category}}</td>
+                <td>{{$row->Category->name ?? null}}</td>
                 <td>{{$row->judul }}</td>
                 <td> {{ $row->resep }}</td>
-                <td> {{ $row->images }}</td>
+                <td> 
+                  <img src="/resep_images/{{ $row->images }}" width="100" alt=""> 
+                </td>
                 <td>
-                    <a href="/editresep" class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="/editresep/{{$row->id}}" class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                    <a href="" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
+                    <a href="/deleteresep/{{$row->id}}" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
 
                 </td>
             </tr>

@@ -37,7 +37,28 @@ class ResepController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new Resep;
+        
+        $data->judul = $request->judul;
+        $data->resep = $request->resep;
+        $data->id_category = $request->id_category;
+
+        $images = null;
+
+        if($request->hasFile('images')){
+            $file = $request->file('images');
+            $name = date('YmdHis').'.'.$file->getClientOriginalExtension();
+            $file->move(public_path().'/resep_images',$name);
+            $images = $name; 
+        }else{
+            $images = $request->images;
+        }
+
+        $data->images =$images;
+
+
+        $data ->save();
+        return redirect()->route('resep')->with('success', 'resep has been created successfully.');
     }
 
     /**
@@ -59,7 +80,8 @@ class ResepController extends Controller
      */
     public function edit($id)
     {
-        return view('resep.edit');
+        $resep = Resep::findOrFail($id);
+        return view('resep.edit', compact('resep'));
     }
 
     /**
@@ -71,7 +93,25 @@ class ResepController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Resep::findOrFail($id);   
+        $data->judul = $request->judul;
+        $data->resep = $request->resep;
+        $data->id_category = $request->id_category;
+
+        $images = null;
+
+        if($request->hasFile('images')){
+            $file = $request->file('images');
+            $name = date('YmdHis').'.'.$file->getClientOriginalExtension();
+            $file->move(public_path().'/resep_images',$name);
+            $images = $name; 
+        }else{
+            $images = $data->images;
+        }
+
+        $data->images =$images;
+        $data ->save();
+        return redirect()->route('resep')->with('success', 'resep has been created successfully.');
     }
 
     /**
@@ -82,6 +122,8 @@ class ResepController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Resep::find($id);
+        $data->delete();
+        return redirect()->route('resep')->with('success', 'Category has been delete successfully.');
     }
 }

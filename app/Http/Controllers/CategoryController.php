@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Category;
-
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+
 
 class CategoryController extends Controller
 {
@@ -19,7 +19,7 @@ class CategoryController extends Controller
     public function index()
     {   
         $category = Category::get();
-        return view('category.index',compact('category') );
+        return view('category.index',compact('category'));
     }
 
     /**
@@ -40,7 +40,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+       $data = new Category;
+
+       $data->name = $request->name;
+       
+       $data ->save();
+       return redirect()->route('category')->with('success', 'Category has been created successfully.');
+   
+
     }
 
     /**
@@ -60,9 +68,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
-    {
-        return view('category.edit');
+    public function edit($id)
+    {   
+        $category = Category::findOrFail($id);
+        return view('category.edit',compact('category'));
     }
 
     /**
@@ -74,7 +83,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Category::find($id);
+        $data->name = $request->name;
+       
+        $data ->save();
+        return redirect()->route('category')->with('success', 'Category has been updated successfully.');
     }
 
     /**
@@ -85,6 +98,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Category::find($id);
+        $data->delete();
+        return redirect()->route('category')->with('success', 'Category has been delete successfully.');
     }
 }
