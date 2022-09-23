@@ -18,7 +18,8 @@ return new class extends Migration
             $table->integer('id_category');
             $table->string('judul');
             $table->text('resep');
-            $table->string('images');
+            $table->string('images');   
+            $table->integer('id_user');
             $table->timestamps();
         });
     }

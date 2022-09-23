@@ -1,5 +1,17 @@
 @extends('layouts.main')
+
+@section('title', 'category')
+@section('heading', 'category')
+@section('breadcrumb', 'category')
+
 @section('content')
+  
+
+@php
+$role = Auth::user()->role ?? null 
+@endphp
+
+@if ( $role == 'admin')
 
 
 @if ($message = Session::get('success'))
@@ -28,9 +40,16 @@
         </thead>
         <tbody>
         
+        
+         
+
+
           @php
               $no = 1
           @endphp
+
+          
+
           @foreach ( $category as $row )
             <tr>
                 <td>{{ $no++ }}</td>
@@ -38,7 +57,7 @@
                 <td>
                     <a href="/editcategory/{{$row->id}}" class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                    <a href="/deletecategory/{{$row->id}}" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
+                    <a href="/deletecategory/{{$row->id}}" class="btn btn-outline-danger" onclick="return confirm('delete data')" ><i class="fa-solid fa-trash"></i></a>
 
                 </td>
             </tr>
@@ -49,5 +68,9 @@
       </table>
     </div>
     <!-- /.card-body -->
-  </div>
+</div>
+@else
+<h1>anda bukan admin</h1>
+@endif
+
 @endsection

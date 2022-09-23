@@ -12,4 +12,5 @@ class Resep extends Model
     public function Category(){
         return $this->belongsTo(Category::class, 'id_category');
     }
+    
 }

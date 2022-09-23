@@ -1,10 +1,19 @@
 @extends('layouts.main')
+
+@section('title', 'create category')
+@section('heading', 'create category')
+@section('breadcrumb', 'create category')
+
+
 @section('content')
+@php
+$role = Auth::user()->role ?? null 
+@endphp
+
+@if ( $role == 'admin')
 
 <form method="post" action="/insertcategory">
-
     @csrf
-
 <div class="container">
     <div class="row">
         <div class="col-4">
@@ -19,6 +28,11 @@
     </div>
 </div>
 
-
   </form>
+  
+  @else
+  <h1>anda bukan admin</h1>
+  @endif
+  
+  
 @endsection

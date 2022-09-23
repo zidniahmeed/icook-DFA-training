@@ -18,6 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {   
+
         $category = Category::get();
         return view('category.index',compact('category'));
     }
@@ -41,14 +42,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-       $data = new Category;
-
-       $data->name = $request->name;
-       
+       $data = new Category;  
+       $data->name = $request->name;     
        $data ->save();
        return redirect()->route('category')->with('success', 'Category has been created successfully.');
-   
-
     }
 
     /**
@@ -84,8 +81,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $data = Category::find($id);
-        $data->name = $request->name;
-       
+        $data->category = $request->category;
         $data ->save();
         return redirect()->route('category')->with('success', 'Category has been updated successfully.');
     }
@@ -101,5 +97,6 @@ class CategoryController extends Controller
         $data = Category::find($id);
         $data->delete();
         return redirect()->route('category')->with('success', 'Category has been delete successfully.');
+    
     }
 }

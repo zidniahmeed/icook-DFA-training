@@ -1,4 +1,9 @@
 @extends('layouts.main')
+
+@section('title', 'edit resep')
+@section('heading', 'edit resep')
+@section('breadcrumb', 'edit resep')
+
 @section('content')
 
 <form action="/updateresep/{{$resep->id}}" method="post" enctype="multipart/form-data">
@@ -6,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col-4">
-            
+            <input type="hidden" name="id_user" value=" {{Auth::user()->id}}">
             <div class="mb-3">
                 <label  class="form-label">category</label>
                 <select class="form-control" name="id_category" required>

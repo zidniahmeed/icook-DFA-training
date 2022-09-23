@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Resep;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ResepController extends Controller
 {
@@ -14,8 +15,19 @@ class ResepController extends Controller
      */
     public function index()
     {
+        
         $resep = Resep::get();
-        return view('resep.index', compact('resep'));
+
+        $id = Auth::user()->id;
+        $role = Auth::user()->role;
+
+        if($role == 'admin'){
+            $resep = Resep::get();
+            return view('resep.index', compact('resep'));  
+        }else{
+            $resep = Resep::where('id_user', $id)->get();
+            return view('resep.index', compact('resep'));  
+        }      
     }
 
 
@@ -38,13 +50,13 @@ class ResepController extends Controller
     public function store(Request $request)
     {
         $data = new Resep;
-        
+
+        $data->id_user = $request->id_user;
+
         $data->judul = $request->judul;
         $data->resep = $request->resep;
         $data->id_category = $request->id_category;
-
         $images = null;
-
         if($request->hasFile('images')){
             $file = $request->file('images');
             $name = date('YmdHis').'.'.$file->getClientOriginalExtension();
@@ -53,10 +65,8 @@ class ResepController extends Controller
         }else{
             $images = $request->images;
         }
-
         $data->images =$images;
-
-
+        
         $data ->save();
         return redirect()->route('resep')->with('success', 'resep has been created successfully.');
     }
@@ -93,13 +103,13 @@ class ResepController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Resep::findOrFail($id);   
+        $data = Resep::findOrFail($id);
+
+        $data->id_user = $request->id_user;   
         $data->judul = $request->judul;
         $data->resep = $request->resep;
         $data->id_category = $request->id_category;
-
         $images = null;
-
         if($request->hasFile('images')){
             $file = $request->file('images');
             $name = date('YmdHis').'.'.$file->getClientOriginalExtension();
@@ -108,7 +118,6 @@ class ResepController extends Controller
         }else{
             $images = $data->images;
         }
-
         $data->images =$images;
         $data ->save();
         return redirect()->route('resep')->with('success', 'resep has been created successfully.');

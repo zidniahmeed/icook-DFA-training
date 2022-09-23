@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
@@ -14,8 +16,19 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $video = Video::get();
-        return view('video.index',compact('video'));
+        $id = Auth::user()->id;
+        $role = Auth::user()->role;
+
+        if($role == 'admin'){
+            $video = Video::get();
+            return view('video.index', compact('video')); 
+        }else{
+            $video = Video::where('id_user', $id)->get();
+            return view('video.index', compact('video')); 
+        } 
+
+
+        
     }
 
     /**
@@ -36,13 +49,14 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new Video; 
+        $data = new Video;
 
-        $data->id_resep = $request->id_resep;
+        $data->id_resep =  $request->id_resep;
         $data->video = $request->video;
-        
+        $data->id_user = $request->id_user;
+
         $data ->save();
-        return redirect()->route('video')->with('success', 'Category has been created successfully.');
+        return redirect()->route('video')->with('success', 'video has been created successfully.');
     }
 
     /**
@@ -62,9 +76,10 @@ class VideoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id)
     {
-        return view('video.edit');
+        $video = Video::findOrFail($id);
+        return view('video.edit', compact('video'));
     }
 
     /**
@@ -76,7 +91,14 @@ class VideoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Video::find($id);
+        
+        $data->id_resep =  $request->id_resep;
+        $data->video = $request->video;
+        $data->id_user = $request->id_user;
+
+        $data ->save();
+        return redirect()->route('video')->with('success', 'video has been updated successfully.');
     }
 
     /**
@@ -87,6 +109,8 @@ class VideoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Video::find($id);
+        $data->delete();
+        return redirect()->route('video')->with('success', 'video has been delete successfully.');
     }
 }
